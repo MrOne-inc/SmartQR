@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Business Smart QR</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="manifest" href="manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <!-- Correct CDN for QR Code Styling -->
+        <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Business Smart QR</h2>
+            <p class="subtitle">One QR. Multiple customer links.</p>
+
+            <label>Business Name</label>
+            <input type="text" id="bizName" placeholder="e.g Medrick Tech" />
+
+            <label>QR Color</label>
+            <input type="color" id="qrColor" value="#000000" />
+
+            <label>Business Logo (optional)</label>
+            <input type="file" id="bizLogo" accept="image/*" />
+
+            <label>Logo inside QR (optional)</label>
+            <input type="file" id="logoInput" accept="image/*" />
+
+            <h4>Select platforms</h4>
+
+            <div class="platform">
+                <input
+                    type="checkbox"
+                    id="waCheck"
+                    onchange="toggleInput('wa')"
+                />
+                <label>WhatsApp</label>
+                <input
+                    type="text"
+                    id="waInput"
+                    placeholder="255744560852"
+                    class="hidden"
+                />
+            </div>
+
+            <div class="platform">
+                <input
+                    type="checkbox"
+                    id="igCheck"
+                    onchange="toggleInput('ig')"
+                />
+                <label>Instagram</label>
+                <input
+                    type="text"
+                    id="igInput"
+                    placeholder="username"
+                    class="hidden"
+                />
+            </div>
+
+            <div class="platform">
+                <input
+                    type="checkbox"
+                    id="twCheck"
+                    onchange="toggleInput('tw')"
+                />
+                <label>Twitter (X)</label>
+                <input
+                    type="text"
+                    id="twInput"
+                    placeholder="username"
+                    class="hidden"
+                />
+            </div>
+
+            <div class="platform">
+                <input
+                    type="checkbox"
+                    id="webCheck"
+                    onchange="toggleInput('web')"
+                />
+                <label>Website</label>
+                <input
+                    type="text"
+                    id="webInput"
+                    placeholder="https://example.com"
+                    class="hidden"
+                />
+            </div>
+
+            <label> <input type="checkbox" id="darkMode" /> Dark Mode </label>
+
+            <label>Language</label>
+            <select id="lang">
+                <option value="en">English</option>
+                <option value="sw">Kiswahili</option>
+            </select>
+
+            <button onclick="generateSmartQR()">Generate Smart QR</button>
+
+            <div id="qrBox"></div>
+
+            <button id="downloadBtn" class="download hidden">
+                Download QR
+            </button>
+        </div>
+
+        <script src="script.js"></script>
+
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker
+                    .register("sw.js")
+                    .then(() => console.log("Service Worker Registered"));
+            }
+        </script>
+    </body>
+</html>

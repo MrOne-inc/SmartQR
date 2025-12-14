@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Connect With Us</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container" id="box">
+            <img
+                id="logo"
+                style="
+                    width: 80px;
+                    border-radius: 50%;
+                    display: none;
+                    margin-bottom: 10px;
+                "
+            />
+            <h2 id="bizTitle"></h2>
+        </div>
+
+        <script>
+            const data = JSON.parse(
+                decodeURIComponent(
+                    new URLSearchParams(location.search).get("data"),
+                ),
+            );
+
+            if (!data) document.body.innerHTML = "Invalid QR Code";
+            else {
+                const box = document.getElementById("box");
+
+                if (data.bizLogo) {
+                    logo.src = data.bizLogo;
+                    logo.style.display = "block";
+                }
+
+                const texts = { en: "Connect With Us", sw: "Wasiliana Nasi" };
+                bizTitle.innerText =
+                    data.name + " - " + (texts[data.lang] || texts.en);
+
+                if (data.links.length === 1) location.href = data.links[0].url;
+
+                data.links.forEach((l) => {
+                    const a = document.createElement("a");
+                    a.href = l.url;
+                    a.className = "link-btn";
+                    a.innerText = l.label;
+                    a.target = "_blank";
+                    box.appendChild(a);
+                });
+
+                if (data.theme === "dark") {
+                    document.body.style.background = "#121212";
+                    document.body.style.color = "#fff";
+                    document.querySelectorAll(".link-btn").forEach((b) => {
+                        b.style.background = "#007bff";
+                        b.style.color = "#fff";
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>

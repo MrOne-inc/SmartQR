@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    width: 380px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.platform {
+    margin-bottom: 10px;
+}
+
+.platform input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:not(.download) {
+    background: #007bff;
+    color: white;
+}
+
+.download {
+    background: #28a745;
+    color: white;
+}
+
+#qrBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/* Scan page buttons */
+.link-btn {
+    display: block;
+    margin-top: 12px;
+    padding: 12px;
+    text-align: center;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
