@@ -64,7 +64,7 @@ function generateSmartQR() {
 
   // Encode payload JSON into short URL
   const encoded = encodeURIComponent(JSON.stringify(payload));
-  const qrURL = `https://mrone-inc.github.io/qr-generator/view.html?data=${encoded}`;
+  const qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
 
   buildQR(qrURL);
 }
@@ -109,5 +109,5 @@ function buildQR(qrURL) {
   // Enable download
   const downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.classList.remove("hidden");
-  downloadBtn.onclick = () => qrCode.download({ name: "business-qr", extension: "png" });
+  downloadBtn.onclick = () => qrCode.download({ name: bizNameInput, extension: "png" });
 }
