@@ -74,7 +74,7 @@ function generateSmartQR() {
 
 function buildQR(payload) {
   const encoded = encodeURIComponent(JSON.stringify(payload));
-  const qrURL = `https://mrone-inc.github.io/qr-generator/view.html?data=${encoded}`;
+  const qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
 
   document.getElementById("qrBox").innerHTML = "";
 
