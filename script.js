@@ -12,8 +12,7 @@ const isValidWebsite = (u) =>
 function generateSmartQR() {
   const links = [];
   const color = qrColor.value;
-  const bizNameInput =
-    document.getElementById("bizName").value || "Our Business";
+  const bizNameInput = document.getElementById("bizName").value || "Our Business";
   const darkModeChecked = document.getElementById("darkMode").checked;
   const lang = document.getElementById("lang").value;
 
@@ -55,51 +54,60 @@ function generateSmartQR() {
     return;
   }
 
+  // Payload for scan page (view.html) only, not inside QR
   const payload = {
     name: bizNameInput,
     links: links,
     theme: darkModeChecked ? "dark" : "light",
-    lang: lang,
+    lang: lang
   };
 
-  if (bizLogo.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      payload.bizLogo = e.target.result;
-      buildQR(payload);
-    };
-    reader.readAsDataURL(bizLogo.files[0]);
-  } else buildQR(payload);
+  // Encode payload JSON into short URL
+  const encoded = encodeURIComponent(JSON.stringify(payload));
+  const qrURL = `https://mrone-inc.github.io/qr-generator/view.html?data=${encoded}`;
+
+  buildQR(qrURL);
 }
 
-function buildQR(payload) {
-  const encoded = encodeURIComponent(JSON.stringify(payload));
-  const qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
+function buildQR(qrURL) {
+  const qrBox = document.getElementById("qrBox");
+  qrBox.innerHTML = "";
 
-  document.getElementById("qrBox").innerHTML = "";
-
+  // QR Code Styling
   qrCode = new QRCodeStyling({
     width: 280,
     height: 280,
     data: qrURL,
     dotsOptions: { color: qrColor.value, type: "rounded" },
     backgroundOptions: { color: "#ffffff" },
-    imageOptions: { crossOrigin: "anonymous", margin: 5 },
+    imageOptions: { crossOrigin: "anonymous", margin: 5, image: null }
   });
 
+  // Add logo if uploaded (resized to max 60px)
   if (logoInput.files[0]) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      qrCode.update({ image: e.target.result });
-      qrCode.append(qrBox);
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        // Resize large images to max 60px
+        const canvas = document.createElement("canvas");
+        const maxSize = 60;
+        canvas.width = maxSize;
+        canvas.height = maxSize;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, maxSize, maxSize);
+        qrCode.update({ image: canvas.toDataURL("image/png") });
+        qrCode.append(qrBox);
+      };
     };
     reader.readAsDataURL(logoInput.files[0]);
   } else {
     qrCode.append(qrBox);
   }
 
+  // Enable download
   const downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.classList.remove("hidden");
-  downloadBtn.onclick = () =>
-    qrCode.download({ name: "business-qr", extension: "png" });
+  downloadBtn.onclick = () => qrCode.download({ name: "business-qr", extension: "png" });
 }
