@@ -12,9 +12,8 @@ const isValidWebsite = (u) =>
 function generateSmartQR() {
   const links = [];
   const color = qrColor.value;
-  const bizNameInput = document.getElementById("bizName").value || "Our Business";
-  const darkModeChecked = document.getElementById("darkMode").checked;
-  const lang = document.getElementById("lang").value;
+  const bizNameInput =
+    document.getElementById("bizName").value || "Our Business";
 
   if (waCheck.checked) {
     const val = waInput.value.trim();
@@ -48,6 +47,32 @@ function generateSmartQR() {
     }
     links.push({ label: "Website", url: val });
   }
+  if (fbCheck.checked) {
+    const val = fbInput.value.trim();
+    if (!val) {
+      alert("Invalid Facebook username/page");
+      return;
+    }
+    links.push({ label: "Facebook", url: `https://facebook.com/${val}` });
+  }
+
+  if (lnCheck.checked) {
+    const val = lnInput.value.trim();
+    if (!val) {
+      alert("Invalid LinkedIn username/page");
+      return;
+    }
+    links.push({ label: "LinkedIn", url: `https://linkedin.com/in/${val}` });
+  }
+
+  if (ttCheck.checked) {
+    const val = ttInput.value.trim();
+    if (!val) {
+      alert("Invalid TikTok username");
+      return;
+    }
+    links.push({ label: "TikTok", url: `https://www.tiktok.com/@${val}` });
+  }
 
   if (links.length === 0) {
     alert("Select at least one platform");
@@ -58,8 +83,6 @@ function generateSmartQR() {
   const payload = {
     name: bizNameInput,
     links: links,
-    theme: darkModeChecked ? "dark" : "light",
-    lang: lang
   };
 
   // Encode payload JSON into short URL
@@ -80,7 +103,7 @@ function buildQR(qrURL) {
     data: qrURL,
     dotsOptions: { color: qrColor.value, type: "rounded" },
     backgroundOptions: { color: "#ffffff" },
-    imageOptions: { crossOrigin: "anonymous", margin: 5, image: null }
+    imageOptions: { crossOrigin: "anonymous", margin: 5, image: null },
   });
 
   // Add logo if uploaded (resized to max 60px)
@@ -109,5 +132,6 @@ function buildQR(qrURL) {
   // Enable download
   const downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.classList.remove("hidden");
-  downloadBtn.onclick = () => qrCode.download({ name: "business-qr", extension: "png" });
+  downloadBtn.onclick = () =>
+    qrCode.download({ name: "business-qr", extension: "png" });
 }
