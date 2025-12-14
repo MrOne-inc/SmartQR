@@ -109,5 +109,5 @@ function buildQR(qrURL) {
   // Enable download
   const downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.classList.remove("hidden");
-  downloadBtn.onclick = () => qrCode.download({ name: bizNameInput, extension: "png" });
+  downloadBtn.onclick = () => qrCode.download({ name: "business-qr", extension: "png" });
 }
