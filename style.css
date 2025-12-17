@@ -3,16 +3,33 @@ body {
     background: #f2f4f8;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;
     height: 100vh;
+
+    IMPORTANT FIX */
+    min-height: 100vh;
+    margin: 0;
+    padding: 10px;
+
+    /* Center on desktop */
+    align-items: flex-start;
+
+    overflow-y: auto;
 }
 
 .container {
     background: white;
     padding: 25px;
-    width: 800px;
+    /*width: 800px;*/
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+    width: 400px;
+    max-width: 100%;
+
+    /* MOBILE FIX */
+    max-height: none;
+    overflow: visible;
 }
 
 .subtitle {
@@ -123,5 +140,16 @@ button:not(.download) {
 
     .mrone-card strong {
         font-size: 13px;
+    }
+    body {
+        align-items: flex-start;
+        padding: 8px;
+    }
+
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        padding-bottom: 90px; /* space for floating Mrone.Inc card */
     }
 }
