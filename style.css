@@ -24,7 +24,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-    width: 400px;
+    width: 80%;
     max-width: 100%;
 
     /* MOBILE FIX */
@@ -58,7 +58,7 @@ label {
 }
 
 button {
-    width: 100%;
+    width: 50%;
     padding: 10px;
     margin-top: 12px;
     border: none;
@@ -66,14 +66,15 @@ button {
     cursor: pointer;
 }
 
-button:not(.download) {
-    background: #007bff;
-    color: white;
+.download-btn {
+    background: #28a745;
+    border: none;
 }
 
-.download {
-    background: #28a745;
-    color: white;
+.download-btn:hover {
+    background: linear-gradient(135deg, #033f0f, #3f9a68);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
 }
 
 #qrBox {
@@ -94,6 +95,18 @@ button:not(.download) {
     border-radius: 6px;
 }
 
+.gradient-btn {
+    background: linear-gradient(135deg, #623604, #ce9252);
+    border: none;
+}
+
+.gradient-btn:hover {
+    background: linear-gradient(135deg, #ce9252, #623604);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+
 /* Floating Mrone.Inc button */
 .mrone-fab {
     position: fixed;
@@ -103,7 +116,7 @@ button:not(.download) {
 }
 
 .mrone-card {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    background: linear-gradient(135deg, #623604, #ce9252);
     color: #fff;
     padding: 12px 16px;
     border-radius: 14px;

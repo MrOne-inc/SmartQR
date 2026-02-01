@@ -20,60 +20,35 @@
     </head>
     <body>
         <div class="container my-4 p-4 bg-white rounded shadow-sm">
-            <h2 class="text-center mb-2">Business Smart QR</h2>
+            <h2 class="text-center mb-2" style="color: #623604;">Business Smart QR Generator</h2>
+            
             <p class="subtitle text-center mb-4">
                 One QR. Multiple customer links.
             </p>
 
             <div class="row mb-3">
                 <!-- Business Name -->
-                <div class="col-md-10">
-                    <label for="bizName" class="form-label"
-                        >Business Name</label
-                    >
-                    <input
-                        type="text"
-                        id="bizName"
-                        class="form-control"
-                        placeholder="e.g NestaPay"
-                    />
+                <div class="col-md-3">
+                    <label for="bizName" class="form-label">Business Name</label>
+                    <input type="text" id="bizName" class="form-control" placeholder="e.g NestaPay"/>
+                </div>
+
+                <!-- Business Logos -->
+                <div class="col-md-3">
+                    <label for="bizLogo" class="form-label">Business Logo (optional)</label>
+                    <input type="file" id="bizLogo" class="form-control" accept="image/*"/>
+                </div>
+                
+                <!-- Logo inside -->
+                <div class="col-md-3">
+                    <label for="logoInput" class="form-label">Logo inside QR (optional)</label>
+                    <input type="file" id="logoInput" class="form-control" accept="image/*"/>
                 </div>
 
                 <!-- QR Color -->
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="qrColor" class="form-label">QR Color</label>
-                    <input
-                        type="color"
-                        id="qrColor"
-                        class="form-control form-control-color"
-                        value="#000000"
-                    />
-                </div>
-            </div>
-
-            <!-- Logos -->
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label for="bizLogo" class="form-label"
-                        >Business Logo (optional)</label
-                    >
-                    <input
-                        type="file"
-                        id="bizLogo"
-                        class="form-control"
-                        accept="image/*"
-                    />
-                </div>
-                <div class="col-md-6">
-                    <label for="logoInput" class="form-label"
-                        >Logo inside QR (optional)</label
-                    >
-                    <input
-                        type="file"
-                        id="logoInput"
-                        class="form-control"
-                        accept="image/*"
-                    />
+                    <input type="color" id="qrColor" class="form-control form-control-color" value="#000000"/>
                 </div>
             </div>
 
@@ -82,154 +57,67 @@
             <div class="row g-3 mb-3">
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="waCheck"
-                            onchange="toggleInput('wa')"
-                        />
-                        <label class="form-check-label" for="waCheck"
-                            >WhatsApp</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="waCheck" onchange="toggleInput('wa')"/>
+                        <label class="form-check-label" for="waCheck">WhatsApp</label>
                     </div>
-                    <input
-                        type="text"
-                        id="waInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="255700000000"
-                    />
+                    <input type="text" id="waInput" class="form-control mt-1 hidden" placeholder="255700000000"/>
                 </div>
 
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="igCheck"
-                            onchange="toggleInput('ig')"
-                        />
-                        <label class="form-check-label" for="igCheck"
-                            >Instagram</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="igCheck" onchange="toggleInput('ig')"/>
+                        <label class="form-check-label" for="igCheck">Instagram</label>
                     </div>
-                    <input
-                        type="text"
-                        id="igInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="username"
-                    />
+                    <input type="text" id="igInput" class="form-control mt-1 hidden" placeholder="username"/>
                 </div>
 
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="twCheck"
-                            onchange="toggleInput('tw')"
-                        />
-                        <label class="form-check-label" for="twCheck"
-                            >Twitter (X)</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="twCheck" onchange="toggleInput('tw')"/>
+                        <label class="form-check-label" for="twCheck">Twitter (X)</label>
                     </div>
-                    <input
-                        type="text"
-                        id="twInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="username"
-                    />
+                    <input type="text" id="twInput" class="form-control mt-1 hidden" placeholder="username"/>
                 </div>
 
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="webCheck"
-                            onchange="toggleInput('web')"
-                        />
-                        <label class="form-check-label" for="webCheck"
-                            >Website</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="webCheck" onchange="toggleInput('web')"/>
+                        <label class="form-check-label" for="webCheck">Website</label>
                     </div>
-                    <input
-                        type="text"
-                        id="webInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="https://example.com"
-                    />
+                    <input type="text" id="webInput" class="form-control mt-1 hidden" placeholder="https://example.com"/>
                 </div>
 
                 <!-- Facebook -->
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="fbCheck"
-                            onchange="toggleInput('fb')"
-                        />
-                        <label class="form-check-label" for="fbCheck"
-                            >Facebook</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="fbCheck" onchange="toggleInput('fb')"/>
+                        <label class="form-check-label" for="fbCheck">Facebook</label>
                     </div>
-                    <input
-                        type="text"
-                        id="fbInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="username or page"
-                    />
+                    <input type="text" id="fbInput" class="form-control mt-1 hidden" placeholder="username or page"/>
                 </div>
 
                 <!-- LinkedIn -->
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="lnCheck"
-                            onchange="toggleInput('ln')"
-                        />
-                        <label class="form-check-label" for="lnCheck"
-                            >LinkedIn</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="lnCheck" onchange="toggleInput('ln')"/>
+                        <label class="form-check-label" for="lnCheck">LinkedIn</label>
                     </div>
-                    <input
-                        type="text"
-                        id="lnInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="username or company page"
-                    />
+                    <input type="text" id="lnInput" class="form-control mt-1 hidden" placeholder="username or company page"/>
                 </div>
 
                 <!-- TikTok -->
                 <div class="col-12 col-md-4">
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="ttCheck"
-                            onchange="toggleInput('tt')"
-                        />
-                        <label class="form-check-label" for="ttCheck"
-                            >TikTok</label
-                        >
+                        <input class="form-check-input" type="checkbox" id="ttCheck" onchange="toggleInput('tt')"/>
+                        <label class="form-check-label" for="ttCheck">TikTok</label>
                     </div>
-                    <input
-                        type="text"
-                        id="ttInput"
-                        class="form-control mt-1 hidden"
-                        placeholder="username"
-                    />
+                    <input type="text" id="ttInput" class="form-control mt-1 hidden" placeholder="username"/>
                 </div>
             </div>
 
             <!-- Generate QR -->
-            <div class="mb-3">
-                <button
-                    onclick="generateSmartQR()"
-                    class="btn btn-primary w-100"
-                >
+            <div class="d-flex justify-content-center">
+                <button onclick="generateSmartQR()" class="btn gradient-btn w-10 text-white">
                     Generate Smart QR
                 </button>
             </div>
@@ -239,16 +127,21 @@
 
             <!-- Download button -->
             <div class="d-flex justify-content-center">
-                <button id="downloadBtn" class="btn btn-success hidden">
-                    Download QR
+                <button id="downloadBtn" class="btn download-btn w-10 text-white hidden">
+                    Download Smart QR
                 </button>
             </div>
         </div>
         <!-- Floating Mrone.Inc badge -->
         <div class="mrone-fab">
           <div class="mrone-card">
-            <strong>Mrone.Inc</strong>
+            <a href="https://mrone-inc.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="text-decoration: none; color: inherit;">
+                <strong>Mrone.Inc</strong>
                <span>SmartQR</span>
+            </a>
           </div>
         </div>
 
