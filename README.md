@@ -1,126 +1,104 @@
-# SmartQR 🚀  
+# SmartQR
+
 **One QR Code. Multiple Smart Links.**
 
-SmartQR is a modern, responsive, and commercial-ready QR Code Generator that allows businesses and individuals to create **one QR code** that opens **multiple links** such as WhatsApp, Instagram, Facebook, TikTok, LinkedIn, Twitter (X), and Websites.
+SmartQR lets businesses and individuals generate a single QR code that opens a landing page with multiple social media links — WhatsApp, Instagram, Facebook, TikTok, LinkedIn, Twitter (X), and custom websites.
 
-Built with **HTML, CSS, JavaScript, Bootstrap**, and hosted on **GitHub Pages** – no backend, no domain, no hosting cost.
+Fully client-side. No backend, no database, no signup. Hosted free on GitHub Pages.
 
----
-
-## 🌟 Features
-
-- ✅ Generate **Smart QR Codes** with multiple links
-- 🎨 Custom QR color
-- 🖼️ Upload **logo inside QR**
-- 🏢 Business name & branding support
-- 🔗 Supported platforms:
-  - WhatsApp (auto `wa.me` link)
-  - Instagram
-  - Facebook
-  - TikTok
-  - Twitter (X)
-  - LinkedIn
-  - Website (full URL)
-- 📱 Fully **responsive** (mobile, tablet, desktop)
-- ⬇️ Download QR as PNG
-- 🌙 Dark mode support
-- 🌍 Language support (English / Kiswahili)
-- ⚡ PWA-ready (Manifest + Service Worker)
-- 💯 Works perfectly on **GitHub Pages**
+**[Live Demo](https://mrone-inc.github.io/SmartQR/)**
 
 ---
 
-## 🔗 Live Demo
+## Features
 
-👉 **https://mrone-inc.github.io/SmartQR/**
-
----
-
-## 🛠️ Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Bootstrap 5
-- QR Code Styling Library
-- Progressive Web App (PWA)
-- GitHub Pages
+- Generate a single QR code linking to multiple platforms
+- Supported platforms: WhatsApp, Instagram, Facebook, TikTok, Twitter (X), LinkedIn, Website
+- Custom QR code color
+- Upload a logo to embed inside the QR code
+- Upload a business logo displayed above the QR
+- Download QR as PNG
+- Fully responsive (mobile, tablet, desktop)
+- PWA-ready — installable with offline support via Service Worker
+- Privacy-first: all data is encoded in the URL, nothing is stored on any server
 
 ---
 
-## 📂 Project Structure
+## How It Works
 
-```bash
+1. Enter your business name and optionally upload logos
+2. Select platforms and enter your usernames / phone number / URL
+3. Click **Generate Smart QR** — a single QR code is created
+4. When scanned, the QR opens a clean landing page with clickable buttons for each platform
+5. Download the QR as PNG for use on business cards, posters, menus, social media, etc.
+
+---
+
+## Tech Stack
+
+| Layer     | Technology                                                        |
+| --------- | ----------------------------------------------------------------- |
+| Markup    | HTML5                                                             |
+| Styling   | CSS3 + Bootstrap 5.3                                              |
+| Logic     | Vanilla JavaScript                                                |
+| QR Engine | [QR Code Styling](https://github.com/nicolo-ribaudo/qr-code-styling) v1.5 |
+| Hosting   | GitHub Pages                                                      |
+| PWA       | Service Worker + Web Manifest                                     |
+
+No build tools, no npm, no Node.js required.
+
+---
+
+## Project Structure
+
+```
 SmartQR/
-│
-├── index.html # QR generator page
-├── view.html # QR scan result page
-├── style.css # Styling
-├── script.js # QR logic & validation
-├── manifest.json # PWA manifest
-├── sw.js # Service Worker
-├── assets/ # Icons & images
+├── index.html        # QR generator page
+├── view.html         # Landing page displayed when QR is scanned
+├── script.js         # QR generation logic and input validation
+├── style.css         # Custom styling and responsive layout
+├── manifest.json     # PWA manifest
+├── sw.js             # Service Worker for offline caching
+├── LICENSE           # MIT License
 └── README.md
 ```
 
-## 🚀 How It Works
+---
 
-1. User selects platforms (WhatsApp, Instagram, Facebook, etc.)
-2. Enters usernames, phone number, or website link
-3. SmartQR automatically builds official platform URLs
-4. A **single QR code** is generated
-5. When scanned, users see a clean page with all selected links
-6. QR can be downloaded and used for:
-   - Business cards
-   - Posters
-   - Shops
-   - Restaurants
-   - Social media marketing
+## Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mrone-inc/SmartQR.git
+   cd SmartQR
+   ```
+2. Open `index.html` in a browser — no server required.
+3. To deploy, push to GitHub and enable GitHub Pages on the `main` branch.
 
 ---
 
-## 📲 Example Generated Links
+## Privacy & Security
 
-- WhatsApp → `https://wa.me/255XXXXXXXXX`
-- Instagram → `https://instagram.com/username`
-- Facebook → `https://facebook.com/page`
-- TikTok → `https://tiktok.com/@username`
-- LinkedIn → `https://linkedin.com/in/username`
-- Website → `https://example.com`
+- Zero server-side processing — everything runs in the browser
+- No cookies, no tracking, no analytics
+- All link data is encoded directly into the QR code URL
+- URLs are validated to prevent injection of malicious protocols
 
 ---
 
-## 🔐 Privacy & Security
+## License
 
-- No data is stored on any server
-- All data is encoded directly into the QR code
-- Fully client-side application
+[MIT](LICENSE) — free to use, modify, and distribute.
 
 ---
 
-## 📜 License
+## Author
 
-This project is licensed under the **MIT License** – free to use, modify, and distribute.
-
----
-
-## 👨‍💻 Author
-
-**SmartQR**  
-Developed by **Medrick Meshack (Mrone.Inc)**  
-Software Engineer | Ethical Hacker | Mobile & Web Developer 🇹🇿
+**Medrick Meshack** ([Mrone.Inc](https://mrone-inc.github.io))
+Software Engineer | Ethical Hacker | Mobile & Web Developer
 
 ---
 
-## ⭐ Support
+## Contributing
 
-If you find this project useful:
-
-- ⭐ Star the repository
-- 🍴 Fork it
-- 🐞 Report issues
-- 💡 Suggest features
-
----
-
-**SmartQR – Turn one scan into many connections.**
+Contributions are welcome. Feel free to open issues or submit pull requests.

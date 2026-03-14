@@ -1,72 +1,128 @@
 let qrCode;
 
-function toggleInput(type) {
-  document.getElementById(type + "Input").classList.toggle("hidden");
+function togglePlatform(type) {
+  const card = document.getElementById(type + "Card");
+  const checkbox = document.getElementById(type + "Check");
+
+  // WhatsApp has a grouped input (select + text)
+  const toggle = document.getElementById(type + "InputGroup") ||
+                 document.getElementById(type + "Input");
+
+  toggle.classList.toggle("hidden");
+  card.classList.toggle("active", checkbox.checked);
+
+  if (checkbox.checked) {
+    document.getElementById(type + "Input").focus();
+  }
 }
 
-const isValidPhone = (p) => /^255\d{9}$/.test(p);
+// Country code → local number length (min, max)
+const PHONE_LENGTHS = {
+  "255": [9, 9],   // Tanzania
+  "254": [9, 9],   // Kenya
+  "256": [9, 9],   // Uganda
+  "250": [9, 9],   // Rwanda
+  "257": [8, 8],   // Burundi
+  "243": [9, 9],   // DR Congo
+  "258": [9, 9],   // Mozambique
+  "265": [9, 9],   // Malawi
+  "260": [9, 9],   // Zambia
+  "263": [9, 9],   // Zimbabwe
+  "27":  [9, 9],   // South Africa
+  "234": [10, 10], // Nigeria
+  "233": [9, 9],   // Ghana
+  "251": [9, 9],   // Ethiopia
+  "20":  [10, 10], // Egypt
+  "212": [9, 9],   // Morocco
+  "1":   [10, 10], // USA/Canada
+  "44":  [10, 10], // UK
+  "91":  [10, 10], // India
+  "971": [9, 9],   // UAE
+  "966": [9, 9],   // Saudi Arabia
+  "86":  [11, 11], // China
+  "81":  [10, 10], // Japan
+  "49":  [10, 11], // Germany
+  "33":  [9, 9],   // France
+  "55":  [10, 11], // Brazil
+  "46":  [7, 9],   // Sweden
+};
+
+function getPhoneLength(code) {
+  return PHONE_LENGTHS[code] || [7, 12];
+}
+
+function updateWaPlaceholder() {
+  const code = document.getElementById("waCountry").value;
+  const input = document.getElementById("waInput");
+  const [min, max] = getPhoneLength(code);
+  input.maxLength = max;
+  input.placeholder = min === max
+    ? `${min} digits (e.g. ${"7".repeat(min)})`
+    : `${min}–${max} digits`;
+}
+
 const isValidUsername = (u) => /^[a-zA-Z0-9._]+$/.test(u);
 const isValidWebsite = (u) =>
   u.startsWith("http://") || u.startsWith("https://");
 
 function generateSmartQR() {
   const links = [];
-  const color = qrColor.value;
   const bizNameInput =
-    document.getElementById("bizName").value || "Our Business";
+    document.getElementById("bizName").value.trim() || "Our Business";
 
-  if (waCheck.checked) {
-    const val = waInput.value.trim();
-    if (!isValidPhone(val)) {
-      alert("WhatsApp number must start with 255");
+  if (document.getElementById("waCheck").checked) {
+    const countryCode = document.getElementById("waCountry").value;
+    const localNum = document.getElementById("waInput").value.trim().replace(/^0+/, "").replace(/\D/g, "");
+    const [min, max] = getPhoneLength(countryCode);
+    if (localNum.length < min || localNum.length > max) {
+      const expect = min === max ? `${min}` : `${min}–${max}`;
+      alert(`Phone number should be ${expect} digits (without country code)`);
       return;
     }
-    links.push({ label: "WhatsApp", url: `https://wa.me/${val}` });
+    links.push({ label: "WhatsApp", url: `https://wa.me/${countryCode}${localNum}` });
   }
-  if (igCheck.checked) {
-    const val = igInput.value.trim();
+  if (document.getElementById("igCheck").checked) {
+    const val = document.getElementById("igInput").value.trim();
     if (!isValidUsername(val)) {
       alert("Invalid Instagram username");
       return;
     }
     links.push({ label: "Instagram", url: `https://instagram.com/${val}` });
   }
-  if (twCheck.checked) {
-    const val = twInput.value.trim();
+  if (document.getElementById("twCheck").checked) {
+    const val = document.getElementById("twInput").value.trim();
     if (!isValidUsername(val)) {
       alert("Invalid Twitter username");
       return;
     }
     links.push({ label: "Twitter", url: `https://twitter.com/${val}` });
   }
-  if (webCheck.checked) {
-    const val = webInput.value.trim();
+  if (document.getElementById("webCheck").checked) {
+    const val = document.getElementById("webInput").value.trim();
     if (!isValidWebsite(val)) {
       alert("Website must start with https://");
       return;
     }
     links.push({ label: "Website", url: val });
   }
-  if (fbCheck.checked) {
-    const val = fbInput.value.trim();
+  if (document.getElementById("fbCheck").checked) {
+    const val = document.getElementById("fbInput").value.trim();
     if (!val) {
       alert("Invalid Facebook username/page");
       return;
     }
     links.push({ label: "Facebook", url: `https://facebook.com/${val}` });
   }
-
-  if (lnCheck.checked) {
-    const val = lnInput.value.trim();
+  if (document.getElementById("lnCheck").checked) {
+    const val = document.getElementById("lnInput").value.trim();
     if (!val) {
       alert("Invalid LinkedIn username/page");
       return;
     }
     links.push({ label: "LinkedIn", url: `https://linkedin.com/in/${val}` });
   }
-
-  if (ttCheck.checked) {
-    const val = ttInput.value.trim();
+  if (document.getElementById("ttCheck").checked) {
+    const val = document.getElementById("ttInput").value.trim();
     if (!val) {
       alert("Invalid TikTok username");
       return;
@@ -79,24 +135,50 @@ function generateSmartQR() {
     return;
   }
 
-  // Payload for scan page (view.html) only, not inside QR
-  const payload = {
-    name: bizNameInput,
-    links: links,
-  };
+  let qrURL;
 
-  // Encode payload JSON into short URL
-  const encoded = encodeURIComponent(JSON.stringify(payload));
-  const qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
+  if (links.length === 1) {
+    // Single link — QR points directly to the platform URL
+    qrURL = links[0].url;
+  } else {
+    // Multiple links — QR points to the view page
+    const payload = {
+      name: bizNameInput,
+      links: links,
+    };
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
+  }
 
+  showBusinessLogo();
   buildQR(qrURL);
+}
+
+function showBusinessLogo() {
+  const bizLogoInput = document.getElementById("bizLogo");
+  const preview = document.getElementById("bizLogoPreview");
+  preview.innerHTML = "";
+
+  if (bizLogoInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.alt = "Business Logo";
+      img.style.maxWidth = "120px";
+      img.style.maxHeight = "120px";
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(bizLogoInput.files[0]);
+  }
 }
 
 function buildQR(qrURL) {
   const qrBox = document.getElementById("qrBox");
+  const logoInput = document.getElementById("logoInput");
+  const qrColor = document.getElementById("qrColor");
   qrBox.innerHTML = "";
 
-  // QR Code Styling
   qrCode = new QRCodeStyling({
     width: 280,
     height: 280,
@@ -106,14 +188,12 @@ function buildQR(qrURL) {
     imageOptions: { crossOrigin: "anonymous", margin: 5, image: null },
   });
 
-  // Add logo if uploaded (resized to max 60px)
   if (logoInput.files[0]) {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.src = e.target.result;
       img.onload = () => {
-        // Resize large images to max 60px
         const canvas = document.createElement("canvas");
         const maxSize = 60;
         canvas.width = maxSize;
@@ -129,7 +209,6 @@ function buildQR(qrURL) {
     qrCode.append(qrBox);
   }
 
-  // Enable download
   const downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.classList.remove("hidden");
   downloadBtn.onclick = () =>

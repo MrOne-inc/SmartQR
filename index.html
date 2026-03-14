@@ -3,157 +3,242 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Business Smart QR</title>
+        <title>SmartQR — One QR Code, Multiple Smart Links</title>
+        <meta name="description" content="Generate one QR code that links to all your social media — WhatsApp, Instagram, Facebook, TikTok, LinkedIn, Twitter, and your website." />
+        <meta property="og:title" content="SmartQR — One QR Code, Multiple Smart Links" />
+        <meta property="og:description" content="Generate one QR code that links to all your social media platforms. Free, no backend, no signup." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mrone-inc.github.io/SmartQR/" />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
         <!-- Bootstrap 5 CSS -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
         <link rel="stylesheet" href="style.css" />
         <link rel="manifest" href="manifest.json" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#4a2c0a" />
 
         <!-- QR Code Styling CDN -->
         <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     </head>
     <body>
-        <div class="container my-4 p-4 bg-white rounded shadow-sm">
-            <h2 class="text-center mb-2" style="color: #623604;">Business Smart QR Generator</h2>
-            
-            <p class="subtitle text-center mb-4">
-                One QR. Multiple customer links.
-            </p>
+        <div class="container">
+            <!-- Header -->
+            <div class="app-header">
+                <h2>SmartQR Generator</h2>
+                <p class="subtitle">
+                    One QR code. All your links.
+                    <button class="help-btn" onclick="showGuide()" title="How to use">?</button>
+                </p>
+            </div>
 
-            <div class="row mb-3">
-                <!-- Business Name -->
+            <!-- Business Info -->
+            <div class="section-label">Business Info</div>
+            <div class="row g-3 mb-4">
                 <div class="col-md-3">
                     <label for="bizName" class="form-label">Business Name</label>
-                    <input type="text" id="bizName" class="form-control" placeholder="e.g NestaPay"/>
+                    <input type="text" id="bizName" class="form-control" placeholder="e.g. NestaPay" />
                 </div>
-
-                <!-- Business Logos -->
                 <div class="col-md-3">
-                    <label for="bizLogo" class="form-label">Business Logo (optional)</label>
-                    <input type="file" id="bizLogo" class="form-control" accept="image/*"/>
+                    <label for="bizLogo" class="form-label">Logo (above QR)</label>
+                    <input type="file" id="bizLogo" class="form-control" accept="image/*" />
                 </div>
-                
-                <!-- Logo inside -->
                 <div class="col-md-3">
-                    <label for="logoInput" class="form-label">Logo inside QR (optional)</label>
-                    <input type="file" id="logoInput" class="form-control" accept="image/*"/>
+                    <label for="logoInput" class="form-label">Logo (inside QR)</label>
+                    <input type="file" id="logoInput" class="form-control" accept="image/*" />
                 </div>
-
-                <!-- QR Color -->
                 <div class="col-md-3">
                     <label for="qrColor" class="form-label">QR Color</label>
-                    <input type="color" id="qrColor" class="form-control form-control-color" value="#000000"/>
+                    <input type="color" id="qrColor" class="form-control form-control-color w-100" value="#000000" />
                 </div>
             </div>
 
             <!-- Platforms -->
-            <h4 class="mt-3 mb-2">Select platforms</h4>
-            <div class="row g-3 mb-3">
-                <div class="col-12 col-md-4">
+            <div class="section-label">Select Platforms</div>
+            <div class="platform-grid mb-4">
+                <div class="platform-card" id="waCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="waCheck" onchange="toggleInput('wa')"/>
-                        <label class="form-check-label" for="waCheck">WhatsApp</label>
+                        <input class="form-check-input" type="checkbox" id="waCheck" onchange="togglePlatform('wa')" />
+                        <label class="form-check-label" for="waCheck">
+                            <span class="platform-icon whatsapp">W</span> WhatsApp
+                        </label>
                     </div>
-                    <input type="text" id="waInput" class="form-control mt-1 hidden" placeholder="255700000000"/>
+                    <div id="waInputGroup" class="hidden">
+                        <select id="waCountry" class="form-select wa-country-select mt-2" onchange="updateWaPlaceholder()">
+                            <option value="255" selected>🇹🇿 Tanzania (+255)</option>
+                            <option value="254">🇰🇪 Kenya (+254)</option>
+                            <option value="256">🇺🇬 Uganda (+256)</option>
+                            <option value="250">🇷🇼 Rwanda (+250)</option>
+                            <option value="257">🇧🇮 Burundi (+257)</option>
+                            <option value="243">🇨🇩 DR Congo (+243)</option>
+                            <option value="258">🇲🇿 Mozambique (+258)</option>
+                            <option value="265">🇲🇼 Malawi (+265)</option>
+                            <option value="260">🇿🇲 Zambia (+260)</option>
+                            <option value="263">🇿🇼 Zimbabwe (+263)</option>
+                            <option value="27">🇿🇦 South Africa (+27)</option>
+                            <option value="234">🇳🇬 Nigeria (+234)</option>
+                            <option value="233">🇬🇭 Ghana (+233)</option>
+                            <option value="251">🇪🇹 Ethiopia (+251)</option>
+                            <option value="20">🇪🇬 Egypt (+20)</option>
+                            <option value="212">🇲🇦 Morocco (+212)</option>
+                            <option value="1">🇺🇸 USA (+1)</option>
+                            <option value="44">🇬🇧 UK (+44)</option>
+                            <option value="91">🇮🇳 India (+91)</option>
+                            <option value="971">🇦🇪 UAE (+971)</option>
+                            <option value="966">🇸🇦 Saudi Arabia (+966)</option>
+                            <option value="86">🇨🇳 China (+86)</option>
+                            <option value="81">🇯🇵 Japan (+81)</option>
+                            <option value="49">🇩🇪 Germany (+49)</option>
+                            <option value="33">🇫🇷 France (+33)</option>
+                            <option value="46">🇸🇪 Sweden (+46)</option>
+                            <option value="55">🇧🇷 Brazil (+55)</option>
+                        </select>
+                        <input type="tel" id="waInput" class="form-control mt-1" placeholder="9 digits (e.g. 777777777)" maxlength="9" />
+                    </div>
                 </div>
 
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="igCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="igCheck" onchange="toggleInput('ig')"/>
-                        <label class="form-check-label" for="igCheck">Instagram</label>
+                        <input class="form-check-input" type="checkbox" id="igCheck" onchange="togglePlatform('ig')" />
+                        <label class="form-check-label" for="igCheck">
+                            <span class="platform-icon instagram">I</span> Instagram
+                        </label>
                     </div>
-                    <input type="text" id="igInput" class="form-control mt-1 hidden" placeholder="username"/>
+                    <input type="text" id="igInput" class="form-control hidden" placeholder="username" />
                 </div>
 
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="twCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="twCheck" onchange="toggleInput('tw')"/>
-                        <label class="form-check-label" for="twCheck">Twitter (X)</label>
+                        <input class="form-check-input" type="checkbox" id="twCheck" onchange="togglePlatform('tw')" />
+                        <label class="form-check-label" for="twCheck">
+                            <span class="platform-icon twitter">X</span> Twitter (X)
+                        </label>
                     </div>
-                    <input type="text" id="twInput" class="form-control mt-1 hidden" placeholder="username"/>
+                    <input type="text" id="twInput" class="form-control hidden" placeholder="username" />
                 </div>
 
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="fbCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="webCheck" onchange="toggleInput('web')"/>
-                        <label class="form-check-label" for="webCheck">Website</label>
+                        <input class="form-check-input" type="checkbox" id="fbCheck" onchange="togglePlatform('fb')" />
+                        <label class="form-check-label" for="fbCheck">
+                            <span class="platform-icon facebook">f</span> Facebook
+                        </label>
                     </div>
-                    <input type="text" id="webInput" class="form-control mt-1 hidden" placeholder="https://example.com"/>
+                    <input type="text" id="fbInput" class="form-control hidden" placeholder="username or page" />
                 </div>
 
-                <!-- Facebook -->
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="lnCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="fbCheck" onchange="toggleInput('fb')"/>
-                        <label class="form-check-label" for="fbCheck">Facebook</label>
+                        <input class="form-check-input" type="checkbox" id="lnCheck" onchange="togglePlatform('ln')" />
+                        <label class="form-check-label" for="lnCheck">
+                            <span class="platform-icon linkedin">in</span> LinkedIn
+                        </label>
                     </div>
-                    <input type="text" id="fbInput" class="form-control mt-1 hidden" placeholder="username or page"/>
+                    <input type="text" id="lnInput" class="form-control hidden" placeholder="username or company" />
                 </div>
 
-                <!-- LinkedIn -->
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="ttCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="lnCheck" onchange="toggleInput('ln')"/>
-                        <label class="form-check-label" for="lnCheck">LinkedIn</label>
+                        <input class="form-check-input" type="checkbox" id="ttCheck" onchange="togglePlatform('tt')" />
+                        <label class="form-check-label" for="ttCheck">
+                            <span class="platform-icon tiktok">T</span> TikTok
+                        </label>
                     </div>
-                    <input type="text" id="lnInput" class="form-control mt-1 hidden" placeholder="username or company page"/>
+                    <input type="text" id="ttInput" class="form-control hidden" placeholder="username" />
                 </div>
 
-                <!-- TikTok -->
-                <div class="col-12 col-md-4">
+                <div class="platform-card" id="webCard">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="ttCheck" onchange="toggleInput('tt')"/>
-                        <label class="form-check-label" for="ttCheck">TikTok</label>
+                        <input class="form-check-input" type="checkbox" id="webCheck" onchange="togglePlatform('web')" />
+                        <label class="form-check-label" for="webCheck">
+                            <span class="platform-icon website">&#9741;</span> Website
+                        </label>
                     </div>
-                    <input type="text" id="ttInput" class="form-control mt-1 hidden" placeholder="username"/>
+                    <input type="text" id="webInput" class="form-control hidden" placeholder="https://example.com" />
                 </div>
             </div>
 
-            <!-- Generate QR -->
-            <div class="d-flex justify-content-center">
-                <button onclick="generateSmartQR()" class="btn gradient-btn w-10 text-white">
+            <!-- Generate -->
+            <div class="text-center">
+                <button onclick="generateSmartQR()" class="btn btn-generate">
                     Generate Smart QR
                 </button>
             </div>
 
-            <!-- QR Box -->
-            <div id="qrBox" class="d-flex justify-content-center mb-3"></div>
-
-            <!-- Download button -->
-            <div class="d-flex justify-content-center">
-                <button id="downloadBtn" class="btn download-btn w-10 text-white hidden">
-                    Download Smart QR
-                </button>
+            <!-- Output -->
+            <div class="qr-output">
+                <div id="bizLogoPreview" class="d-flex justify-content-center mb-2"></div>
+                <div id="qrBox"></div>
+                <div class="d-flex justify-content-center mt-2">
+                    <button id="downloadBtn" class="btn btn-download hidden">
+                        Download PNG
+                    </button>
+                </div>
             </div>
         </div>
-        <!-- Floating Mrone.Inc badge -->
-        <div class="mrone-fab">
-          <div class="mrone-card">
-            <a href="https://mrone-inc.github.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="text-decoration: none; color: inherit;">
-                <strong>Mrone.Inc</strong>
-               <span>SmartQR</span>
-            </a>
-          </div>
+
+        <!-- Welcome Guide Modal -->
+        <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #4a2c0a, #ce9252); color: #fff;">
+                        <h5 class="modal-title" id="welcomeModalLabel">Welcome to SmartQR</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-2"><strong>Create one QR code for all your links in 4 steps:</strong></p>
+                        <ol class="guide-steps">
+                            <li><strong>Enter your business name</strong> — it shows as the heading when someone scans your QR.</li>
+                            <li><strong>Select your platforms</strong> — tick the ones you use and enter your username or phone number.</li>
+                            <li><strong>Customize</strong> — pick a QR color and optionally embed your logo inside it.</li>
+                            <li><strong>Generate &amp; Download</strong> — hit the button, then save your QR as a PNG.</li>
+                        </ol>
+                        <div class="guide-tip">
+                            <strong>Tip:</strong> Print your QR on business cards, posters, menus, or share it on social media — one scan gives your customers all your links!
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-generate" data-bs-dismiss="modal">Get Started</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- JS -->
+        <!-- Floating Mrone.Inc badge -->
+        <div class="mrone-fab">
+            <div class="mrone-card">
+                <a href="https://mrone-inc.github.io" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <strong>Mrone.Inc</strong>
+                    <span>SmartQR</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- App JS -->
         <script src="script.js"></script>
 
-        <!-- Service Worker -->
+        <!-- Service Worker & Welcome Guide -->
         <script>
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker
                     .register("sw.js")
                     .then(() => console.log("Service Worker Registered"));
+            }
+
+            function showGuide() {
+                new bootstrap.Modal(document.getElementById("welcomeModal")).show();
+            }
+
+            if (!localStorage.getItem("smartqr_welcomed")) {
+                showGuide();
+                localStorage.setItem("smartqr_welcomed", "1");
             }
         </script>
     </body>

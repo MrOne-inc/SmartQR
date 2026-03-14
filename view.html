@@ -4,48 +4,129 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Smart QR View</title>
+        <meta name="description" content="View your SmartQR links — one scan, multiple connections." />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
         <!-- Bootstrap 5 CSS -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body class="bg-light">
-        <div class="container my-4 p-4 bg-white rounded shadow-sm">
-            <h2 class="text-center mb-3">Your Smart QR Links</h2>
-            <div class="row g-3" id="linksContainer">
-                <!-- Buttons will be injected here -->
+    <body>
+        <div class="container" style="max-width: 480px;">
+            <div class="view-page">
+                <!-- Business branding -->
+                <div id="bizBranding" class="biz-branding hidden">
+                    <div id="bizLogoView" class="biz-logo-wrapper"></div>
+                </div>
+                <h2 id="bizTitle">Your Smart QR Links</h2>
+                <p class="view-subtitle" id="viewSubtitle">Tap a link to connect</p>
+
+                <div id="linksContainer" class="link-grid">
+                    <!-- Buttons will be injected here -->
+                </div>
+                <div class="view-footer">
+                    Powered by <a href="https://mrone-inc.github.io/SmartQR/" target="_blank" rel="noopener noreferrer">SmartQR</a>
+                </div>
             </div>
         </div>
 
         <script>
-            // Get QR data from URL
+            const ALLOWED_PROTOCOLS = ["https:", "http:"];
+
+            function isValidUrl(str) {
+                try {
+                    const url = new URL(str);
+                    return ALLOWED_PROTOCOLS.includes(url.protocol);
+                } catch {
+                    return false;
+                }
+            }
+
+            const PLATFORM_MAP = {
+                "WhatsApp":  { css: "whatsapp",  icon: "W" },
+                "Instagram": { css: "instagram", icon: "I" },
+                "Twitter":   { css: "twitter",   icon: "X" },
+                "Facebook":  { css: "facebook",  icon: "f" },
+                "LinkedIn":  { css: "linkedin",  icon: "in" },
+                "TikTok":    { css: "tiktok",    icon: "T" },
+                "Website":   { css: "website",   icon: "\u2605" },
+            };
+
             const params = new URLSearchParams(window.location.search);
             const data = params.get("data");
+            const container = document.getElementById("linksContainer");
+
             if (!data) {
-                document.getElementById("linksContainer").innerHTML =
+                container.innerHTML =
                     "<p class='text-center text-danger'>No data found!</p>";
+                document.getElementById("viewSubtitle").style.display = "none";
             } else {
-                const payload = JSON.parse(decodeURIComponent(data));
-                const container = document.getElementById("linksContainer");
+                try {
+                    const payload = JSON.parse(data);
 
-                payload.links.forEach((link) => {
-                    const col = document.createElement("div");
-                    col.className =
-                        "col-12 col-md-6 d-flex justify-content-center";
+                    if (payload.name) {
+                        document.getElementById("bizTitle").textContent = payload.name;
+                        document.title = payload.name + " — SmartQR";
+                    }
 
-                    const a = document.createElement("a");
-                    a.href = link.url;
-                    a.className = "btn btn-primary w-100";
-                    a.target = "_blank";
-                    a.textContent = link.label;
+                    // Show business branding with initials avatar
+                    if (payload.name) {
+                        const branding = document.getElementById("bizBranding");
+                        const logoWrapper = document.getElementById("bizLogoView");
+                        const initialsEl = document.createElement("div");
+                        initialsEl.className = "biz-initials";
+                        initialsEl.textContent = payload.name
+                            .split(" ")
+                            .map((w) => w[0])
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase();
+                        logoWrapper.appendChild(initialsEl);
+                        branding.classList.remove("hidden");
+                    }
 
-                    col.appendChild(a);
-                    container.appendChild(col);
-                });
+                    if (!Array.isArray(payload.links) || payload.links.length === 0) {
+                        throw new Error("No links found");
+                    }
+
+                    // Single link — redirect directly
+                    if (payload.links.length === 1 && isValidUrl(payload.links[0].url)) {
+                        window.location.replace(payload.links[0].url);
+                        return;
+                    }
+
+                    payload.links.forEach((link) => {
+                        if (!isValidUrl(link.url)) return;
+
+                        const platform = PLATFORM_MAP[link.label] || { css: "default", icon: "#" };
+
+                        const a = document.createElement("a");
+                        a.href = link.url;
+                        a.className = "link-card " + platform.css;
+                        a.target = "_blank";
+                        a.rel = "noopener noreferrer";
+
+                        const iconSpan = document.createElement("span");
+                        iconSpan.className = "link-icon";
+                        iconSpan.textContent = platform.icon;
+
+                        const labelSpan = document.createElement("span");
+                        labelSpan.textContent = link.label;
+
+                        a.appendChild(iconSpan);
+                        a.appendChild(labelSpan);
+                        container.appendChild(a);
+                    });
+                } catch {
+                    container.innerHTML =
+                        "<p class='text-center text-danger'>Invalid or corrupted QR data.</p>";
+                    document.getElementById("viewSubtitle").style.display = "none";
+                }
             }
         </script>
     </body>
