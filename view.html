@@ -19,6 +19,22 @@
     <body>
         <div class="container" style="max-width: 480px;">
             <div class="view-page">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                        <span class="theme-dot dot-light"></span><span class="theme-label">Light</span>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                        <span class="theme-dot dot-dark"></span><span class="theme-label">Dark</span>
+                    </button>
+                    <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
+                        <span class="theme-dot dot-silver"></span><span class="theme-label">Silver</span>
+                    </button>
+                    <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
+                        <span class="theme-dot dot-gold"></span><span class="theme-label">Gold</span>
+                    </button>
+                </div>
+
                 <!-- Business branding -->
                 <div id="bizBranding" class="biz-branding hidden">
                     <div id="bizLogoView" class="biz-logo-wrapper"></div>
@@ -36,6 +52,18 @@
         </div>
 
         <script>
+            function setTheme(theme) {
+                document.documentElement.setAttribute("data-theme", theme);
+                localStorage.setItem("smartqr_theme", theme);
+                document.querySelectorAll(".theme-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.theme === theme);
+                });
+            }
+            (function() {
+                const saved = localStorage.getItem("smartqr_theme") || "light";
+                setTheme(saved);
+            })();
+
             const ALLOWED_PROTOCOLS = ["https:", "http:"];
 
             function isValidUrl(str) {

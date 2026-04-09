@@ -27,6 +27,22 @@
     </head>
     <body>
         <div class="container">
+            <!-- Theme Switcher -->
+            <div class="theme-switcher">
+                <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                    <span class="theme-dot dot-light"></span><span class="theme-label">Light</span>
+                </button>
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                    <span class="theme-dot dot-dark"></span><span class="theme-label">Dark</span>
+                </button>
+                <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
+                    <span class="theme-dot dot-silver"></span><span class="theme-label">Silver</span>
+                </button>
+                <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
+                    <span class="theme-dot dot-gold"></span><span class="theme-label">Gold</span>
+                </button>
+            </div>
+
             <!-- Header -->
             <div class="app-header">
                 <h2>SmartQR Generator</h2>
@@ -185,7 +201,7 @@
         <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header" style="background: linear-gradient(135deg, #4a2c0a, #ce9252); color: #fff;">
+                    <div class="modal-header" style="background: linear-gradient(135deg, var(--brand-dark), var(--brand-light)); color: #fff;">
                         <h5 class="modal-title" id="welcomeModalLabel">Welcome to SmartQR</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -240,6 +256,21 @@
                 showGuide();
                 localStorage.setItem("smartqr_welcomed", "1");
             }
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute("data-theme", theme);
+                localStorage.setItem("smartqr_theme", theme);
+                document.querySelectorAll(".theme-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.theme === theme);
+                });
+                const colors = { light: "#4a2c0a", dark: "#13131d", silver: "#4b5563", gold: "#78350f" };
+                document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
+            }
+
+            (function() {
+                const saved = localStorage.getItem("smartqr_theme") || "light";
+                setTheme(saved);
+            })();
         </script>
     </body>
 </html>
