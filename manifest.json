@@ -1,10 +1,11 @@
 {
   "name": "Business Smart QR",
   "short_name": "SmartQR",
-  "start_url": "index.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f5f3ef",
+  "theme_color": "#4a2c0a",
   "icons": [
     {
       "src": "icon-192.png",

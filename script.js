@@ -1,4 +1,6 @@
 let qrCode;
+let lastQrURL = "";
+let lastBizName = "";
 
 function togglePlatform(type) {
   const card = document.getElementById(type + "Card");
@@ -44,7 +46,7 @@ const PHONE_LENGTHS = {
   "49":  [10, 11], // Germany
   "33":  [9, 9],   // France
   "55":  [10, 11], // Brazil
-  "46":  [7, 9],   // Sweden
+  "46":  [9, 9],   // Sweden
 };
 
 function getPhoneLength(code) {
@@ -57,42 +59,77 @@ function updateWaPlaceholder() {
   const [min, max] = getPhoneLength(code);
   input.maxLength = max;
   input.placeholder = min === max
-    ? `${min} digits (e.g. ${"7".repeat(min)})`
-    : `${min}–${max} digits`;
+    ? t("placeholder.waPhone", { n: min, example: "7".repeat(min) })
+    : t("placeholder.waPhoneRange", { min, max });
 }
 
-const isValidUsername = (u) => /^[a-zA-Z0-9._]+$/.test(u);
+const USERNAME_PATTERNS = {
+  ig: /^[a-zA-Z0-9._]{1,30}$/,
+  tw: /^[a-zA-Z0-9_]{1,15}$/,
+  fb: /^[a-zA-Z0-9.\-]{3,50}$/,
+  ln: /^[a-zA-Z0-9\-]{3,100}$/,
+  tt: /^[a-zA-Z0-9._]{2,24}$/,
+};
+const isValidUsername = (platform, u) => USERNAME_PATTERNS[platform].test(u);
 const isValidWebsite = (u) =>
   u.startsWith("http://") || u.startsWith("https://");
 
-function generateSmartQR() {
+function compressImage(file, size, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(reader.error);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("image decode failed"));
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, size, size);
+        const scale = Math.min(size / img.width, size / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function generateSmartQR() {
   const links = [];
   const bizNameInput =
-    document.getElementById("bizName").value.trim() || "Our Business";
+    document.getElementById("bizName").value.trim() || t("default.bizName");
 
   if (document.getElementById("waCheck").checked) {
     const countryCode = document.getElementById("waCountry").value;
-    const localNum = document.getElementById("waInput").value.trim().replace(/^0+/, "").replace(/\D/g, "");
+    let digits = document.getElementById("waInput").value.replace(/\D/g, "");
+    if (digits.startsWith(countryCode)) digits = digits.slice(countryCode.length);
+    digits = digits.replace(/^0+/, "");
     const [min, max] = getPhoneLength(countryCode);
-    if (localNum.length < min || localNum.length > max) {
+    if (digits.length < min || digits.length > max) {
       const expect = min === max ? `${min}` : `${min}–${max}`;
-      alert(`Phone number should be ${expect} digits (without country code)`);
+      alert(t("alert.phoneLength", { expect }));
       return;
     }
-    links.push({ label: "WhatsApp", url: `https://wa.me/${countryCode}${localNum}` });
+    links.push({ label: "WhatsApp", url: `https://wa.me/${countryCode}${digits}` });
   }
   if (document.getElementById("igCheck").checked) {
-    const val = document.getElementById("igInput").value.trim();
-    if (!isValidUsername(val)) {
-      alert("Invalid Instagram username");
+    const val = document.getElementById("igInput").value.trim().replace(/^@/, "");
+    if (!isValidUsername("ig", val)) {
+      alert(t("alert.invalidUsername", { platform: "Instagram" }));
       return;
     }
     links.push({ label: "Instagram", url: `https://instagram.com/${val}` });
   }
   if (document.getElementById("twCheck").checked) {
-    const val = document.getElementById("twInput").value.trim();
-    if (!isValidUsername(val)) {
-      alert("Invalid Twitter username");
+    const val = document.getElementById("twInput").value.trim().replace(/^@/, "");
+    if (!isValidUsername("tw", val)) {
+      alert(t("alert.invalidUsername", { platform: "Twitter" }));
       return;
     }
     links.push({ label: "Twitter", url: `https://twitter.com/${val}` });
@@ -100,38 +137,38 @@ function generateSmartQR() {
   if (document.getElementById("webCheck").checked) {
     const val = document.getElementById("webInput").value.trim();
     if (!isValidWebsite(val)) {
-      alert("Website must start with https://");
+      alert(t("alert.invalidWebsite"));
       return;
     }
     links.push({ label: "Website", url: val });
   }
   if (document.getElementById("fbCheck").checked) {
-    const val = document.getElementById("fbInput").value.trim();
-    if (!val) {
-      alert("Invalid Facebook username/page");
+    const val = document.getElementById("fbInput").value.trim().replace(/^@/, "");
+    if (!isValidUsername("fb", val)) {
+      alert(t("alert.invalidUsernameOrPage", { platform: "Facebook" }));
       return;
     }
     links.push({ label: "Facebook", url: `https://facebook.com/${val}` });
   }
   if (document.getElementById("lnCheck").checked) {
-    const val = document.getElementById("lnInput").value.trim();
-    if (!val) {
-      alert("Invalid LinkedIn username/page");
+    const val = document.getElementById("lnInput").value.trim().replace(/^@/, "");
+    if (!isValidUsername("ln", val)) {
+      alert(t("alert.invalidUsernameOrPage", { platform: "LinkedIn" }));
       return;
     }
     links.push({ label: "LinkedIn", url: `https://linkedin.com/in/${val}` });
   }
   if (document.getElementById("ttCheck").checked) {
-    const val = document.getElementById("ttInput").value.trim();
-    if (!val) {
-      alert("Invalid TikTok username");
+    const val = document.getElementById("ttInput").value.trim().replace(/^@/, "");
+    if (!isValidUsername("tt", val)) {
+      alert(t("alert.invalidUsername", { platform: "TikTok" }));
       return;
     }
     links.push({ label: "TikTok", url: `https://www.tiktok.com/@${val}` });
   }
 
   if (links.length === 0) {
-    alert("Select at least one platform");
+    alert(t("alert.selectPlatform"));
     return;
   }
 
@@ -145,10 +182,38 @@ function generateSmartQR() {
     const payload = {
       name: bizNameInput,
       links: links,
+      color: document.getElementById("qrColor").value,
     };
+
+    const bizLogoFile = document.getElementById("bizLogo").files[0];
+    if (bizLogoFile) {
+      try {
+        payload.logo = await compressImage(bizLogoFile, 64, 0.65);
+      } catch (e) {
+        console.warn("Logo compression failed; omitting from payload.", e);
+      }
+    }
+
+    const innerLogoFile = document.getElementById("logoInput").files[0];
+    if (innerLogoFile) {
+      try {
+        payload.innerLogo = await compressImage(innerLogoFile, 48, 0.7);
+      } catch (e) {
+        console.warn("Inner logo compression failed; omitting from payload.", e);
+      }
+    }
+
     const encoded = encodeURIComponent(JSON.stringify(payload));
-    qrURL = `https://mrone-inc.github.io/SmartQR/view.html?data=${encoded}`;
+    qrURL = new URL(`view.html?data=${encoded}`, window.location.href).toString();
   }
+
+  if (qrURL.length > 1500) {
+    const ok = confirm(t("confirm.longUrl", { n: qrURL.length }));
+    if (!ok) return;
+  }
+
+  lastQrURL = qrURL;
+  lastBizName = bizNameInput;
 
   showBusinessLogo();
   buildQR(qrURL);
@@ -209,8 +274,89 @@ function buildQR(qrURL) {
     qrCode.append(qrBox);
   }
 
+  const actions = document.getElementById("qrActions");
+  if (actions) actions.classList.remove("hidden");
+
   const downloadBtn = document.getElementById("downloadBtn");
-  downloadBtn.classList.remove("hidden");
   downloadBtn.onclick = () =>
     qrCode.download({ name: "business-qr", extension: "png" });
+
+  const shareBtn = document.getElementById("shareBtn");
+  if (shareBtn) shareBtn.onclick = shareSmartQR;
+
+  const copyBtn = document.getElementById("copyLinkBtn");
+  if (copyBtn) copyBtn.onclick = copySmartQRLink;
+
+  document.body.classList.add("qr-shown");
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((resolve, reject) => {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy") ? resolve() : reject(new Error("copy failed"));
+    } catch (err) {
+      reject(err);
+    } finally {
+      document.body.removeChild(ta);
+    }
+  });
+}
+
+async function shareSmartQR() {
+  if (!qrCode || !lastQrURL) return;
+  const title = t("share.title", { name: lastBizName });
+  const text = t("share.text");
+
+  try {
+    const blob = await qrCode.getRawData("png");
+    if (blob) {
+      const file = new File([blob], "smart-qr.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title, text });
+        return;
+      }
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+    console.warn("File share failed; falling back to link share.", err);
+  }
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title, text, url: lastQrURL });
+      return;
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+    }
+  }
+
+  copySmartQRLink();
+}
+
+async function copySmartQRLink() {
+  if (!lastQrURL) return;
+  const label = document.getElementById("copyLinkLabel");
+  try {
+    await copyToClipboard(lastQrURL);
+    if (label) {
+      label.removeAttribute("data-i18n");
+      label.textContent = t("btn.copied");
+      setTimeout(() => {
+        label.setAttribute("data-i18n", "btn.copyLink");
+        label.textContent = t("btn.copyLink");
+      }, 1800);
+    }
+  } catch {
+    prompt("Copy this link:", lastQrURL);
+  }
 }

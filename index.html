@@ -3,12 +3,24 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SmartQR — One QR Code, Multiple Smart Links</title>
+        <title data-i18n="head.title">SmartQR — One QR Code, Multiple Smart Links</title>
         <meta name="description" content="Generate one QR code that links to all your social media — WhatsApp, Instagram, Facebook, TikTok, LinkedIn, Twitter, and your website." />
         <meta property="og:title" content="SmartQR — One QR Code, Multiple Smart Links" />
         <meta property="og:description" content="Generate one QR code that links to all your social media platforms. Free, no backend, no signup." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mrone-inc.github.io/SmartQR/" />
+        <meta property="og:image" content="https://mrone-inc.github.io/SmartQR/icon-512.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="SmartQR — One QR Code, Multiple Smart Links" />
+        <meta name="twitter:description" content="Generate one QR code that links to all your social media platforms." />
+        <meta name="twitter:image" content="https://mrone-inc.github.io/SmartQR/icon-512.png" />
+
+        <!-- Favicons -->
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,55 +38,70 @@
         <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     </head>
     <body>
+        <noscript>
+            <div class="noscript-banner">
+                SmartQR needs JavaScript to generate codes.
+                <br />
+                SmartQR inahitaji JavaScript ili kutengeneza msimbo.
+            </div>
+        </noscript>
         <div class="container">
-            <!-- Theme Switcher -->
-            <div class="theme-switcher">
-                <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
-                    <span class="theme-dot dot-light"></span><span class="theme-label">Light</span>
-                </button>
-                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
-                    <span class="theme-dot dot-dark"></span><span class="theme-label">Dark</span>
-                </button>
-                <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
-                    <span class="theme-dot dot-silver"></span><span class="theme-label">Silver</span>
-                </button>
-                <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
-                    <span class="theme-dot dot-gold"></span><span class="theme-label">Gold</span>
-                </button>
+            <!-- Top switchers -->
+            <div class="switcher-row">
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                        <span class="theme-dot dot-light"></span><span class="theme-label" data-i18n="theme.light">Light</span>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                        <span class="theme-dot dot-dark"></span><span class="theme-label" data-i18n="theme.dark">Dark</span>
+                    </button>
+                    <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
+                        <span class="theme-dot dot-silver"></span><span class="theme-label" data-i18n="theme.silver">Silver</span>
+                    </button>
+                    <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
+                        <span class="theme-dot dot-gold"></span><span class="theme-label" data-i18n="theme.gold">Gold</span>
+                    </button>
+                </div>
+
+                <div class="lang-switcher" role="group" aria-label="Language">
+                    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" data-lang="sw" onclick="setLang('sw')">SW</button>
+                </div>
             </div>
 
             <!-- Header -->
             <div class="app-header">
-                <h2>SmartQR Generator</h2>
+                <img src="mrone-badge.png" alt="Mrone.Inc" class="brand-logo" />
+                <h2 data-i18n="app.header">SmartQR Generator</h2>
                 <p class="subtitle">
-                    One QR code. All your links.
-                    <button class="help-btn" onclick="showGuide()" title="How to use">?</button>
+                    <span data-i18n="app.subtitle">One QR code. All your links.</span>
+                    <button class="help-btn" onclick="showGuide()" data-i18n-title="app.helpTitle" title="How to use">?</button>
                 </p>
             </div>
 
             <!-- Business Info -->
-            <div class="section-label">Business Info</div>
+            <div class="section-label" data-i18n="section.businessInfo">Business Info</div>
             <div class="row g-3 mb-4">
                 <div class="col-md-3">
-                    <label for="bizName" class="form-label">Business Name</label>
-                    <input type="text" id="bizName" class="form-control" placeholder="e.g. NestaPay" />
+                    <label for="bizName" class="form-label" data-i18n="field.bizName.label">Business Name</label>
+                    <input type="text" id="bizName" class="form-control" data-i18n-placeholder="field.bizName.placeholder" placeholder="e.g. NestaPay" />
                 </div>
                 <div class="col-md-3">
-                    <label for="bizLogo" class="form-label">Logo (above QR)</label>
+                    <label for="bizLogo" class="form-label" data-i18n="field.bizLogo.label">Logo (above QR)</label>
                     <input type="file" id="bizLogo" class="form-control" accept="image/*" />
                 </div>
                 <div class="col-md-3">
-                    <label for="logoInput" class="form-label">Logo (inside QR)</label>
+                    <label for="logoInput" class="form-label" data-i18n="field.logo.label">Logo (inside QR)</label>
                     <input type="file" id="logoInput" class="form-control" accept="image/*" />
                 </div>
                 <div class="col-md-3">
-                    <label for="qrColor" class="form-label">QR Color</label>
+                    <label for="qrColor" class="form-label" data-i18n="field.qrColor.label">QR Color</label>
                     <input type="color" id="qrColor" class="form-control form-control-color w-100" value="#000000" />
                 </div>
             </div>
 
             <!-- Platforms -->
-            <div class="section-label">Select Platforms</div>
+            <div class="section-label" data-i18n="section.platforms">Select Platforms</div>
             <div class="platform-grid mb-4">
                 <div class="platform-card" id="waCard">
                     <div class="form-check">
@@ -124,7 +151,7 @@
                             <span class="platform-icon instagram">I</span> Instagram
                         </label>
                     </div>
-                    <input type="text" id="igInput" class="form-control hidden" placeholder="username" />
+                    <input type="text" id="igInput" class="form-control hidden" data-i18n-placeholder="placeholder.username" placeholder="username" />
                 </div>
 
                 <div class="platform-card" id="twCard">
@@ -134,7 +161,7 @@
                             <span class="platform-icon twitter">X</span> Twitter (X)
                         </label>
                     </div>
-                    <input type="text" id="twInput" class="form-control hidden" placeholder="username" />
+                    <input type="text" id="twInput" class="form-control hidden" data-i18n-placeholder="placeholder.username" placeholder="username" />
                 </div>
 
                 <div class="platform-card" id="fbCard">
@@ -144,7 +171,7 @@
                             <span class="platform-icon facebook">f</span> Facebook
                         </label>
                     </div>
-                    <input type="text" id="fbInput" class="form-control hidden" placeholder="username or page" />
+                    <input type="text" id="fbInput" class="form-control hidden" data-i18n-placeholder="placeholder.usernameOrPage" placeholder="username or page" />
                 </div>
 
                 <div class="platform-card" id="lnCard">
@@ -154,7 +181,7 @@
                             <span class="platform-icon linkedin">in</span> LinkedIn
                         </label>
                     </div>
-                    <input type="text" id="lnInput" class="form-control hidden" placeholder="username or company" />
+                    <input type="text" id="lnInput" class="form-control hidden" data-i18n-placeholder="placeholder.usernameOrPage" placeholder="username or company" />
                 </div>
 
                 <div class="platform-card" id="ttCard">
@@ -164,7 +191,7 @@
                             <span class="platform-icon tiktok">T</span> TikTok
                         </label>
                     </div>
-                    <input type="text" id="ttInput" class="form-control hidden" placeholder="username" />
+                    <input type="text" id="ttInput" class="form-control hidden" data-i18n-placeholder="placeholder.username" placeholder="username" />
                 </div>
 
                 <div class="platform-card" id="webCard">
@@ -174,13 +201,13 @@
                             <span class="platform-icon website">&#9741;</span> Website
                         </label>
                     </div>
-                    <input type="text" id="webInput" class="form-control hidden" placeholder="https://example.com" />
+                    <input type="text" id="webInput" class="form-control hidden" data-i18n-placeholder="placeholder.website" placeholder="https://example.com" />
                 </div>
             </div>
 
             <!-- Generate -->
             <div class="text-center">
-                <button onclick="generateSmartQR()" class="btn btn-generate">
+                <button onclick="generateSmartQR()" class="btn btn-generate" data-i18n="btn.generate">
                     Generate Smart QR
                 </button>
             </div>
@@ -189,11 +216,24 @@
             <div class="qr-output">
                 <div id="bizLogoPreview" class="d-flex justify-content-center mb-2"></div>
                 <div id="qrBox"></div>
-                <div class="d-flex justify-content-center mt-2">
-                    <button id="downloadBtn" class="btn btn-download hidden">
+                <div id="qrActions" class="qr-actions hidden">
+                    <button id="downloadBtn" class="btn btn-download" data-i18n="btn.download">
                         Download PNG
                     </button>
+                    <button id="shareBtn" class="btn btn-secondary-action" data-i18n="btn.share">
+                        Share
+                    </button>
+                    <button id="copyLinkBtn" class="btn btn-secondary-action">
+                        <span id="copyLinkLabel" data-i18n="btn.copyLink">Copy Link</span>
+                    </button>
                 </div>
+            </div>
+
+            <div class="view-footer">
+                <span data-i18n="view.poweredBy">Powered by</span>
+                <a href="https://mrone-inc.github.io/SmartQR/" target="_blank" rel="noopener noreferrer">SmartQR</a>
+                <span class="view-footer-sep">·</span>
+                <a href="https://mrone-inc.github.io" target="_blank" rel="noopener noreferrer">Mrone.Inc</a>
             </div>
         </div>
 
@@ -202,23 +242,23 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header" style="background: linear-gradient(135deg, var(--brand-dark), var(--brand-light)); color: #fff;">
-                        <h5 class="modal-title" id="welcomeModalLabel">Welcome to SmartQR</h5>
+                        <h5 class="modal-title" id="welcomeModalLabel" data-i18n="modal.welcome.title">Welcome to SmartQR</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="mb-2"><strong>Create one QR code for all your links in 4 steps:</strong></p>
+                        <p class="mb-2"><strong data-i18n="modal.welcome.intro">Create one QR code for all your links in 4 steps:</strong></p>
                         <ol class="guide-steps">
-                            <li><strong>Enter your business name</strong> — it shows as the heading when someone scans your QR.</li>
-                            <li><strong>Select your platforms</strong> — tick the ones you use and enter your username or phone number.</li>
-                            <li><strong>Customize</strong> — pick a QR color and optionally embed your logo inside it.</li>
-                            <li><strong>Generate &amp; Download</strong> — hit the button, then save your QR as a PNG.</li>
+                            <li><strong data-i18n="modal.welcome.step1.strong">Enter your business name</strong><span data-i18n="modal.welcome.step1.tail"> — it shows as the heading when someone scans your QR.</span></li>
+                            <li><strong data-i18n="modal.welcome.step2.strong">Select your platforms</strong><span data-i18n="modal.welcome.step2.tail"> — tick the ones you use and enter your username or phone number.</span></li>
+                            <li><strong data-i18n="modal.welcome.step3.strong">Customize</strong><span data-i18n="modal.welcome.step3.tail"> — pick a QR color and optionally embed your logo inside it.</span></li>
+                            <li><strong data-i18n="modal.welcome.step4.strong">Generate &amp; Download</strong><span data-i18n="modal.welcome.step4.tail"> — hit the button, then save your QR as a PNG.</span></li>
                         </ol>
                         <div class="guide-tip">
-                            <strong>Tip:</strong> Print your QR on business cards, posters, menus, or share it on social media — one scan gives your customers all your links!
+                            <strong data-i18n="modal.welcome.tip.strong">Tip:</strong><span data-i18n="modal.welcome.tip.tail"> Print your QR on business cards, posters, menus, or share it on social media — one scan gives your customers all your links!</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-generate" data-bs-dismiss="modal">Get Started</button>
+                        <button type="button" class="btn btn-generate" data-bs-dismiss="modal" data-i18n="modal.welcome.cta">Get Started</button>
                     </div>
                 </div>
             </div>
@@ -226,12 +266,13 @@
 
         <!-- Floating Mrone.Inc badge -->
         <div class="mrone-fab">
-            <div class="mrone-card">
-                <a href="https://mrone-inc.github.io" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+            <a class="mrone-card" href="https://mrone-inc.github.io" target="_blank" rel="noopener noreferrer">
+                <img src="mrone-badge.png" alt="Mrone.Inc" class="mrone-logo" />
+                <div class="mrone-text">
                     <strong>Mrone.Inc</strong>
                     <span>SmartQR</span>
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
 
         <!-- Bootstrap JS -->
@@ -239,6 +280,10 @@
 
         <!-- App JS -->
         <script src="script.js"></script>
+
+        <!-- Theme + i18n -->
+        <script src="theme.js"></script>
+        <script src="i18n.js"></script>
 
         <!-- Service Worker & Welcome Guide -->
         <script>
@@ -257,20 +302,10 @@
                 localStorage.setItem("smartqr_welcomed", "1");
             }
 
-            function setTheme(theme) {
-                document.documentElement.setAttribute("data-theme", theme);
-                localStorage.setItem("smartqr_theme", theme);
-                document.querySelectorAll(".theme-btn").forEach(btn => {
-                    btn.classList.toggle("active", btn.dataset.theme === theme);
-                });
-                const colors = { light: "#4a2c0a", dark: "#13131d", silver: "#4b5563", gold: "#78350f" };
-                document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
+            // Re-run the dynamic phone placeholder when language changes
+            function onLangChange() {
+                if (typeof updateWaPlaceholder === "function") updateWaPlaceholder();
             }
-
-            (function() {
-                const saved = localStorage.getItem("smartqr_theme") || "light";
-                setTheme(saved);
-            })();
         </script>
     </body>
 </html>

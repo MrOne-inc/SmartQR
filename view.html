@@ -3,8 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Smart QR View</title>
+        <title data-i18n="view.title">Smart QR View</title>
         <meta name="description" content="View your SmartQR links — one scan, multiple connections." />
+        <meta property="og:title" content="SmartQR — Your links, one scan away" />
+        <meta property="og:description" content="One scan opens all the links — WhatsApp, Instagram, website, and more." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://mrone-inc.github.io/SmartQR/icon-512.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="SmartQR — Your links, one scan away" />
+        <meta name="twitter:description" content="One scan opens all the links — WhatsApp, Instagram, website, and more." />
+        <meta name="twitter:image" content="https://mrone-inc.github.io/SmartQR/icon-512.png" />
+
+        <!-- Favicons -->
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,147 +30,70 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
         <link rel="stylesheet" href="style.css" />
+        <meta name="theme-color" content="#4a2c0a" />
     </head>
     <body>
+        <noscript>
+            <div class="noscript-banner">
+                JavaScript is required to view this SmartQR.
+                <br />
+                Tafadhali wezesha JavaScript ili kuona viungo vyako vya SmartQR.
+            </div>
+        </noscript>
         <div class="container" style="max-width: 480px;">
             <div class="view-page">
-                <!-- Theme Switcher -->
-                <div class="theme-switcher">
-                    <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
-                        <span class="theme-dot dot-light"></span><span class="theme-label">Light</span>
-                    </button>
-                    <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
-                        <span class="theme-dot dot-dark"></span><span class="theme-label">Dark</span>
-                    </button>
-                    <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
-                        <span class="theme-dot dot-silver"></span><span class="theme-label">Silver</span>
-                    </button>
-                    <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
-                        <span class="theme-dot dot-gold"></span><span class="theme-label">Gold</span>
-                    </button>
+                <!-- Top switchers -->
+                <div class="switcher-row">
+                    <div class="theme-switcher">
+                        <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                            <span class="theme-dot dot-light"></span><span class="theme-label" data-i18n="theme.light">Light</span>
+                        </button>
+                        <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                            <span class="theme-dot dot-dark"></span><span class="theme-label" data-i18n="theme.dark">Dark</span>
+                        </button>
+                        <button class="theme-btn" data-theme="silver" onclick="setTheme('silver')">
+                            <span class="theme-dot dot-silver"></span><span class="theme-label" data-i18n="theme.silver">Silver</span>
+                        </button>
+                        <button class="theme-btn" data-theme="gold" onclick="setTheme('gold')">
+                            <span class="theme-dot dot-gold"></span><span class="theme-label" data-i18n="theme.gold">Gold</span>
+                        </button>
+                    </div>
+
+                    <div class="lang-switcher" role="group" aria-label="Language">
+                        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                        <button class="lang-btn" data-lang="sw" onclick="setLang('sw')">SW</button>
+                    </div>
                 </div>
 
                 <!-- Business branding -->
                 <div id="bizBranding" class="biz-branding hidden">
                     <div id="bizLogoView" class="biz-logo-wrapper"></div>
                 </div>
-                <h2 id="bizTitle">Your Smart QR Links</h2>
-                <p class="view-subtitle" id="viewSubtitle">Tap a link to connect</p>
+                <h2 id="bizTitle" data-i18n="view.defaultTitle">Your Smart QR Links</h2>
+                <p class="view-subtitle" id="viewSubtitle" data-i18n="view.subtitle">Tap a link to connect</p>
 
                 <div id="linksContainer" class="link-grid">
                     <!-- Buttons will be injected here -->
                 </div>
+                <div id="actionRow" class="action-row hidden">
+                    <button id="saveContactBtn" class="action-btn" type="button">
+                        <span class="action-icon">&#x2B07;</span> <span data-i18n="view.action.saveContact">Save Contact</span>
+                    </button>
+                    <button id="shareBtn" class="action-btn" type="button">
+                        <span class="action-icon">&#x21AA;</span> <span id="shareBtnLabel" data-i18n="view.action.share">Share</span>
+                    </button>
+                </div>
                 <div class="view-footer">
-                    Powered by <a href="https://mrone-inc.github.io/SmartQR/" target="_blank" rel="noopener noreferrer">SmartQR</a>
+                    <span data-i18n="view.poweredBy">Powered by</span>
+                    <a href="https://mrone-inc.github.io/SmartQR/" target="_blank" rel="noopener noreferrer">SmartQR</a>
+                    <span class="view-footer-sep">·</span>
+                    <a href="https://mrone-inc.github.io" target="_blank" rel="noopener noreferrer">Mrone.Inc</a>
                 </div>
             </div>
         </div>
 
-        <script>
-            function setTheme(theme) {
-                document.documentElement.setAttribute("data-theme", theme);
-                localStorage.setItem("smartqr_theme", theme);
-                document.querySelectorAll(".theme-btn").forEach(btn => {
-                    btn.classList.toggle("active", btn.dataset.theme === theme);
-                });
-            }
-            (function() {
-                const saved = localStorage.getItem("smartqr_theme") || "light";
-                setTheme(saved);
-            })();
-
-            const ALLOWED_PROTOCOLS = ["https:", "http:"];
-
-            function isValidUrl(str) {
-                try {
-                    const url = new URL(str);
-                    return ALLOWED_PROTOCOLS.includes(url.protocol);
-                } catch {
-                    return false;
-                }
-            }
-
-            const PLATFORM_MAP = {
-                "WhatsApp":  { css: "whatsapp",  icon: "W" },
-                "Instagram": { css: "instagram", icon: "I" },
-                "Twitter":   { css: "twitter",   icon: "X" },
-                "Facebook":  { css: "facebook",  icon: "f" },
-                "LinkedIn":  { css: "linkedin",  icon: "in" },
-                "TikTok":    { css: "tiktok",    icon: "T" },
-                "Website":   { css: "website",   icon: "\u2605" },
-            };
-
-            const params = new URLSearchParams(window.location.search);
-            const data = params.get("data");
-            const container = document.getElementById("linksContainer");
-
-            if (!data) {
-                container.innerHTML =
-                    "<p class='text-center text-danger'>No data found!</p>";
-                document.getElementById("viewSubtitle").style.display = "none";
-            } else {
-                try {
-                    const payload = JSON.parse(data);
-
-                    if (payload.name) {
-                        document.getElementById("bizTitle").textContent = payload.name;
-                        document.title = payload.name + " — SmartQR";
-                    }
-
-                    // Show business branding with initials avatar
-                    if (payload.name) {
-                        const branding = document.getElementById("bizBranding");
-                        const logoWrapper = document.getElementById("bizLogoView");
-                        const initialsEl = document.createElement("div");
-                        initialsEl.className = "biz-initials";
-                        initialsEl.textContent = payload.name
-                            .split(" ")
-                            .map((w) => w[0])
-                            .join("")
-                            .substring(0, 2)
-                            .toUpperCase();
-                        logoWrapper.appendChild(initialsEl);
-                        branding.classList.remove("hidden");
-                    }
-
-                    if (!Array.isArray(payload.links) || payload.links.length === 0) {
-                        throw new Error("No links found");
-                    }
-
-                    // Single link — redirect directly
-                    if (payload.links.length === 1 && isValidUrl(payload.links[0].url)) {
-                        window.location.replace(payload.links[0].url);
-                        return;
-                    }
-
-                    payload.links.forEach((link) => {
-                        if (!isValidUrl(link.url)) return;
-
-                        const platform = PLATFORM_MAP[link.label] || { css: "default", icon: "#" };
-
-                        const a = document.createElement("a");
-                        a.href = link.url;
-                        a.className = "link-card " + platform.css;
-                        a.target = "_blank";
-                        a.rel = "noopener noreferrer";
-
-                        const iconSpan = document.createElement("span");
-                        iconSpan.className = "link-icon";
-                        iconSpan.textContent = platform.icon;
-
-                        const labelSpan = document.createElement("span");
-                        labelSpan.textContent = link.label;
-
-                        a.appendChild(iconSpan);
-                        a.appendChild(labelSpan);
-                        container.appendChild(a);
-                    });
-                } catch {
-                    container.innerHTML =
-                        "<p class='text-center text-danger'>Invalid or corrupted QR data.</p>";
-                    document.getElementById("viewSubtitle").style.display = "none";
-                }
-            }
-        </script>
+        <script src="theme.js"></script>
+        <script src="i18n.js"></script>
+        <script src="view.js"></script>
     </body>
 </html>

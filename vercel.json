@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/view.html", "destination": "/api/view" },
+    { "source": "/view", "destination": "/api/view" }
+  ],
+  "functions": {
+    "api/view.js": {
+      "includeFiles": "view.html"
+    }
+  }
+}

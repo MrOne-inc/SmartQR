@@ -49,48 +49,48 @@
     --tiktok-icon-bg: #ff0050;
 }
 
-/* ── Silver Theme ── */
+/* ── Silver Theme (dark base + brushed silver accents) ── */
 [data-theme="silver"] {
-    --brand-dark: #374151;
-    --brand: #6b7280;
-    --brand-light: #9ca3af;
-    --brand-glow: #f3f4f6;
-    --surface: #ffffff;
-    --surface-alt: #f9fafb;
-    --bg: #eef0f4;
-    --text: #111827;
-    --text-muted: #6b7280;
-    --border: #d1d5db;
-    --shadow: 0 4px 24px rgba(100, 116, 139, 0.08);
-    --shadow-lg: 0 16px 48px rgba(100, 116, 139, 0.12);
-    --modal-bg: #ffffff;
-    --input-bg: #ffffff;
-    --card-hover-shadow: 0 4px 16px rgba(100, 116, 139, 0.12);
-    --btn-generate-shadow: rgba(75, 85, 99, 0.25);
-    --twitter-icon-bg: #000000;
-    --tiktok-icon-bg: #000000;
+    --brand-dark: #6b7280;
+    --brand: #C0C7CF;
+    --brand-light: #E5E7EB;
+    --brand-glow: rgba(192, 199, 207, 0.14);
+    --surface: #1a1a1f;
+    --surface-alt: #15151a;
+    --bg: #0d0d12;
+    --text: #f5f5f7;
+    --text-muted: #9ca3af;
+    --border: rgba(192, 199, 207, 0.22);
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+    --modal-bg: #1a1a1f;
+    --input-bg: #0f0f14;
+    --card-hover-shadow: 0 4px 16px rgba(192, 199, 207, 0.25);
+    --btn-generate-shadow: rgba(192, 199, 207, 0.35);
+    --twitter-icon-bg: #1d9bf0;
+    --tiktok-icon-bg: #ff0050;
 }
 
-/* ── Gold Theme ── */
+/* ── Gold Theme (CRDB SimBanking — dark navy + gold) ── */
 [data-theme="gold"] {
-    --brand-dark: #78350f;
-    --brand: #b45309;
-    --brand-light: #f59e0b;
-    --brand-glow: #fef3c7;
-    --surface: #fffdf7;
-    --surface-alt: #fefce8;
-    --bg: #fdf8ee;
-    --text: #451a03;
-    --text-muted: #92400e;
-    --border: #fde68a;
-    --shadow: 0 4px 24px rgba(180, 83, 9, 0.06);
-    --shadow-lg: 0 16px 48px rgba(180, 83, 9, 0.1);
-    --modal-bg: #fffdf7;
-    --input-bg: #ffffff;
-    --card-hover-shadow: 0 4px 16px rgba(180, 83, 9, 0.12);
-    --btn-generate-shadow: rgba(180, 83, 9, 0.3);
-    --twitter-icon-bg: #000000;
-    --tiktok-icon-bg: #000000;
+    --brand-dark: #B8860B;
+    --brand: #F2A900;
+    --brand-light: #FFD54F;
+    --brand-glow: rgba(242, 169, 0, 0.14);
+    --surface: #15263d;
+    --surface-alt: #112038;
+    --bg: #0a1428;
+    --text: #f5f5f5;
+    --text-muted: #94a3b8;
+    --border: rgba(242, 169, 0, 0.22);
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+    --modal-bg: #15263d;
+    --input-bg: #0e1d33;
+    --card-hover-shadow: 0 4px 16px rgba(242, 169, 0, 0.25);
+    --btn-generate-shadow: rgba(242, 169, 0, 0.4);
+    --twitter-icon-bg: #1d9bf0;
+    --tiktok-icon-bg: #ff0050;
 }
 
 /* ── Smooth theme transitions ── */
@@ -98,19 +98,76 @@ html {
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* ── noscript fallback ── */
+.noscript-banner {
+    max-width: 480px;
+    margin: 24px auto;
+    padding: 18px 22px;
+    background: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffe69c;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+/* ── Switcher Row (theme + language) ── */
+.switcher-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
 /* ── Theme Switcher ── */
 .theme-switcher {
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-bottom: 24px;
     background: var(--surface-alt);
     border: 1px solid var(--border);
     border-radius: 50px;
     padding: 5px;
     width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+}
+
+/* ── Language Switcher ── */
+.lang-switcher {
+    display: flex;
+    gap: 2px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 5px;
+    width: fit-content;
+}
+
+.lang-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 7px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.lang-btn:hover {
+    color: var(--text);
+    background: var(--brand-glow);
+}
+
+.lang-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .theme-btn {
@@ -152,7 +209,7 @@ html {
 .theme-dot.dot-light  { background: linear-gradient(135deg, #f5f3ef, #ffffff); }
 .theme-dot.dot-dark   { background: linear-gradient(135deg, #0f0f1a, #1a1a2a); border-color: rgba(255,255,255,0.15); }
 .theme-dot.dot-silver { background: linear-gradient(135deg, #9ca3af, #e5e7eb); }
-.theme-dot.dot-gold   { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.theme-dot.dot-gold   { background: linear-gradient(135deg, #B8860B, #FFD54F); }
 
 /* ── Dark theme form overrides ── */
 [data-theme="dark"] .form-control,
@@ -190,8 +247,71 @@ html {
 [data-theme="gold"] .form-control,
 [data-theme="gold"] .form-select {
     background-color: var(--input-bg);
+    color: var(--text);
     border-color: var(--border);
 }
+
+[data-theme="gold"] .form-control:focus,
+[data-theme="gold"] .form-select:focus {
+    background-color: var(--input-bg);
+    color: var(--text);
+}
+
+[data-theme="gold"] .form-control::placeholder {
+    color: var(--text-muted);
+}
+
+[data-theme="gold"] .modal-content {
+    background-color: var(--modal-bg);
+    color: var(--text);
+}
+
+[data-theme="gold"] .btn-close {
+    filter: invert(1);
+}
+
+[data-theme="gold"] .form-check-input {
+    background-color: var(--input-bg);
+    border-color: var(--border);
+}
+
+[data-theme="gold"] .link-card.twitter { background: #1d9bf0; }
+[data-theme="gold"] .link-card.tiktok  { background: #ff0050; }
+
+/* ── Silver theme form overrides ── */
+[data-theme="silver"] .form-control,
+[data-theme="silver"] .form-select {
+    background-color: var(--input-bg);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+[data-theme="silver"] .form-control:focus,
+[data-theme="silver"] .form-select:focus {
+    background-color: var(--input-bg);
+    color: var(--text);
+}
+
+[data-theme="silver"] .form-control::placeholder {
+    color: var(--text-muted);
+}
+
+[data-theme="silver"] .modal-content {
+    background-color: var(--modal-bg);
+    color: var(--text);
+}
+
+[data-theme="silver"] .btn-close {
+    filter: invert(1);
+}
+
+[data-theme="silver"] .form-check-input {
+    background-color: var(--input-bg);
+    border-color: var(--border);
+}
+
+[data-theme="silver"] .link-card.twitter { background: #1d9bf0; }
+[data-theme="silver"] .link-card.tiktok  { background: #ff0050; }
 
 * {
     box-sizing: border-box;
@@ -227,6 +347,19 @@ body {
 .app-header {
     text-align: center;
     margin-bottom: 32px;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ffffff;
+    padding: 4px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    margin: 0 auto 14px;
+    display: block;
+    border: 1px solid var(--border);
 }
 
 .app-header h2 {
@@ -439,13 +572,42 @@ body {
     filter: brightness(0.97);
 }
 
+.qr-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.btn-secondary-action {
+    background: var(--surface);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-secondary-action:hover {
+    border-color: var(--brand-light);
+    color: var(--brand);
+    background: var(--brand-glow);
+    transform: translateY(-1px);
+    box-shadow: var(--card-hover-shadow);
+}
+
 .btn-download {
     background: linear-gradient(135deg, #059669, #34d399);
     color: white;
     border: none;
     border-radius: var(--radius-sm);
-    padding: 14px 40px;
-    font-size: 15px;
+    padding: 14px 28px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all var(--transition);
@@ -505,28 +667,47 @@ body {
     bottom: 20px;
     right: 20px;
     z-index: 9999;
+    transition: opacity var(--transition);
 }
 
 .mrone-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     background: linear-gradient(135deg, var(--brand-dark), var(--brand-light));
     color: #fff;
-    padding: 10px 16px;
-    border-radius: var(--radius-sm);
+    padding: 8px 14px 8px 8px;
+    border-radius: 999px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    min-width: 100px;
     backdrop-filter: blur(8px);
 }
 
-.mrone-card strong {
-    display: block;
+.mrone-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    object-fit: cover;
+    padding: 3px;
+    flex-shrink: 0;
+}
+
+.mrone-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    text-align: left;
+}
+
+.mrone-text strong {
     font-size: 13px;
     font-weight: 700;
 }
 
-.mrone-card span {
+.mrone-text span {
     font-size: 10px;
     opacity: 0.85;
 }
@@ -534,6 +715,7 @@ body {
 .mrone-card:hover {
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    color: #fff;
 }
 
 /* ── Welcome Guide Modal ── */
@@ -671,6 +853,24 @@ body {
     flex-shrink: 0;
 }
 
+.link-grid.single-link {
+    margin-top: 8px;
+}
+
+.link-grid.single-link .link-card {
+    padding: 24px 28px;
+    font-size: 18px;
+    font-weight: 700;
+    justify-content: center;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.link-grid.single-link .link-card .link-icon {
+    width: 36px;
+    font-size: 20px;
+}
+
 .link-card.whatsapp  { background: #25D366; }
 .link-card.instagram { background: linear-gradient(135deg, #833AB4, #E1306C, #F77737); }
 .link-card.twitter   { background: #000000; }
@@ -682,6 +882,42 @@ body {
 
 [data-theme="dark"] .link-card.twitter { background: #1d9bf0; }
 [data-theme="dark"] .link-card.tiktok  { background: #ff0050; }
+
+.action-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: inherit;
+}
+
+.action-btn:hover {
+    border-color: var(--brand-light);
+    color: var(--brand);
+    background: var(--brand-glow);
+    transform: translateY(-1px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.action-icon {
+    font-size: 14px;
+}
 
 .view-footer {
     margin-top: 36px;
@@ -698,6 +934,11 @@ body {
     transition: color var(--transition);
 }
 
+.view-footer-sep {
+    margin: 0 4px;
+    opacity: 0.6;
+}
+
 .view-footer a:hover {
     color: var(--brand-dark);
 }
@@ -706,6 +947,11 @@ body {
 @media (max-width: 600px) {
     body {
         padding: 0;
+    }
+
+    body.qr-shown .mrone-fab {
+        opacity: 0;
+        pointer-events: none;
     }
 
     .container {
@@ -746,17 +992,34 @@ body {
     }
 
     .mrone-card {
-        padding: 8px 12px;
-        min-width: 90px;
+        padding: 6px 12px 6px 6px;
+        gap: 8px;
     }
 
-    .mrone-card strong {
+    .mrone-logo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .mrone-text strong {
         font-size: 12px;
     }
 
+    .brand-logo {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
     .btn-generate,
-    .btn-download {
+    .btn-download,
+    .btn-secondary-action {
         width: 100%;
+    }
+
+    .qr-actions {
+        flex-direction: column;
+        gap: 8px;
     }
 }
 
